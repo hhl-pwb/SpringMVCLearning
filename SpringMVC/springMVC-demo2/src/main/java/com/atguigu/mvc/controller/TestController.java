@@ -11,4 +11,13 @@ public class TestController {
         //返回的字符串，为视图名称
         return "index";
     }
+
+    /**
+     * springMVC参数接收案例
+     * @return
+     */
+    @RequestMapping("/param")
+    public String param(){
+        return "test_param";
+    }
 }
