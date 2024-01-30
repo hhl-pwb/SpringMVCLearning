@@ -6,6 +6,11 @@
     </head>
     <body>
         success
+        <!--获取request域共享数据-->
         <p th:text="${testRequestScope}"></p>
+        <!--获取session域共享信息，session是内置对象-->
+        <p th:text="${session.testSessionScope}"></p>
+        <!--获取Application域共享信息，application是内置对象-->
+        <p th:text="${application.testApplicationScope}"></p>
     </body>
 </html>
