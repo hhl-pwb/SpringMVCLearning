@@ -31,6 +31,9 @@
     view-name：设置请求地址所对应的视图名称
     -->
     <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
+    <mvc:view-controller path="test_view" view-name="test_view"></mvc:view-controller>
+    <mvc:view-controller path="test_rest" view-name="test_rest"></mvc:view-controller>
+
     <!--开启mvc注解驱动-->
     <mvc:annotation-driven></mvc:annotation-driven>
 </beans>
