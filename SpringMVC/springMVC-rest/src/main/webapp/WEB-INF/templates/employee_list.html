@@ -5,7 +5,7 @@
         <title>Employee Info</title>
     </head>
     <body>
-        <table th:border="1" th:cellpadding="0" th:cellspacing="0" style="text-align: center">
+        <table id="dataTable" th:border="1" th:cellpadding="0" th:cellspacing="0" style="text-align: center">
           <tr>
               <th th:colspan="5">Employee Info</th>
           </tr>
@@ -14,7 +14,7 @@
               <th>lastName</th>
               <th>email</th>
               <th>gender</th>
-              <th>option</th>
+              <th>options(<a th:href="@{/toAdd}">add</a>)</th>
           </tr>
             <tr th:each="employee:${employeeList}">
                 <td th:text="${employee.id}"></td>
@@ -22,10 +22,36 @@
                 <td th:text="${employee.email}"></td>
                 <td th:text="${employee.gender}"></td>
                 <td>
-                    <a href="">delete</a>
-                    <a href="">update</a>
+                    <a @click="deletEmployee" th:href="@{'/employee/'+${employee.id}}">delete</a>
+                    <a th:href="@{'/employee/'+${employee.id}}">update</a>
                 </td>
             </tr>
         </table>
+        <!-- 作用：通过超链接控制表单的提交，将post请求转换为delete请求 -->
+        <form id="deleteForm" th:method="post">
+            <!-- HiddenHttpMethodFilter要求：必须传输_method请求参数，并且值为最终的请求方式 -->
+            <input type="hidden" name="_method" value="delete"/>
+        </form>
+        <!--引入vue.js-->
+        <<script type="text/javascript" th:src="@{/static/js/vue.min.js}"></script>
+        <script type="text/javascript">
+            var vue = new Vue({
+                // 绑定容器
+                el:"#dataTable",
+                methods:{
+                    // event表示事件
+                    deletEmployee:function (event){
+                        //根据id获取表单元素
+                        var deleteForm= document.getElementById("deleteForm");
+                        // 触发点击事件的超链接href属性赋值给表单的action属性
+                        deleteForm.action = event.target.href;
+                        //提交表单
+                        deleteForm.submit();
+                        // 取消超链接的默认行为
+                        deleteForm.preventDefault();
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
