@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--开启包扫描-->
+    <context:component-scan base-package="com.atguigu.mvc"></context:component-scan>
+    <!--配置thymleaf的视图解析器-->
+    <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="order" value="1"/>
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="templateEngine">
+            <bean class="org.thymeleaf.spring5.SpringTemplateEngine">
+                <property name="templateResolver">
+                    <bean class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+                        <!-- 视图前缀 -->
+                        <property name="prefix" value="/WEB-INF/templates/"/>
+                        <!-- 视图后缀 -->
+                        <property name="suffix" value=".html"/>
+                        <property name="templateMode" value="HTML5"/>
+                        <property name="characterEncoding" value="UTF-8"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--开放对静态资源的访问-->
+    <mvc:default-servlet-handler/>
+    <!--配置前端控制器-->
+    <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
+
+    <!--开启SpringMVC注解驱动-->
+<!--    <mvc:annotation-driven>-->
+<!--        <mvc:message-converters>-->
+<!--            &lt;!&ndash;处理响应中文乱码&ndash;&gt;-->
+<!--            <bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
+<!--                <property name="defaultCharset" value="UTF-8"/>-->
+<!--                <property name="supportedMediaTypes">-->
+<!--                    <list>-->
+<!--                        <value>text/html</value>-->
+<!--                        <value>application</value>-->
+<!--                    </list>-->
+<!--                </property>-->
+<!--            </bean>-->
+<!--        </mvc:message-converters>-->
+<!--    </mvc:annotation-driven>-->
+    <mvc:annotation-driven/>
+
+    <!--必须通过文件解析器的解析才能将文件转换为MultipartFile对象-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <ref bean="firstInterceptor"></ref>
+        <ref bean="secondInterceptor"></ref>
+        <!--使用<bean>这种方式配置拦截器，默认名对所有的请求都会被拦截-->
+<!--        <bean class="com.atguigu.mvc.interceptors.FirstInterceptor"></bean>-->
+        <!--使用ref方式配置拦截器,默认对所有请求都进行拦截-->
+<!--        <ref bean="firstInterceptor"></ref>-->
+        <!--以上两种配置方式都是对DispatcherServlet所处理的请求进行拦截-->
+        <mvc:interceptor>
+            <!--设置哪些请求被过滤-->
+            <!--这里的/*表示访问上下文路径下的一层目录-->
+<!--            <mvc:mapping path="/*"/>-->
+            <!--拦截所有请求的写法-->
+<!--            <mvc:mapping path="/**"/>-->
+            <!--设置哪些请求不被过滤-->
+            <!--这里的 / 表示上下文路径，即首页-->
+<!--            <mvc:exclude-mapping path="/"/>-->
+<!--            <ref bean="firstInterceptor"></ref>-->
+        </mvc:interceptor>
+        <!--以上配置方式可以通过ref或bean标签设置拦截，通过mvc：mapping设置需要拦截的请求
+        通过mvc:exclude-mapping设置需要排除的请求，即不需要拦截的请求-->
+    </mvc:interceptors>
+</beans>
