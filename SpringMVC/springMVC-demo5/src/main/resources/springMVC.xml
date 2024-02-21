@@ -65,13 +65,34 @@
             <!--这里的/*表示访问上下文路径下的一层目录-->
 <!--            <mvc:mapping path="/*"/>-->
             <!--拦截所有请求的写法-->
-<!--            <mvc:mapping path="/**"/>-->
+            <mvc:mapping path="/**"/>
             <!--设置哪些请求不被过滤-->
             <!--这里的 / 表示上下文路径，即首页-->
-<!--            <mvc:exclude-mapping path="/"/>-->
-<!--            <ref bean="firstInterceptor"></ref>-->
+            <mvc:exclude-mapping path="/"/>
+            <ref bean="firstInterceptor"></ref>
         </mvc:interceptor>
         <!--以上配置方式可以通过ref或bean标签设置拦截，通过mvc：mapping设置需要拦截的请求
         通过mvc:exclude-mapping设置需要排除的请求，即不需要拦截的请求-->
     </mvc:interceptors>
+
+    <!--配置异常处理-->
+<!--    <bean class = "org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+<!--        <property name="exceptionMappings">-->
+<!--            &lt;!&ndash;-->
+<!--                properties的键表示处理器方法执行过程中出现的异常-->
+<!--                properties的值表示若出翔指定异常时，设置一个新的视图名称，跳转到指定页面-->
+<!--            &ndash;&gt;-->
+<!--            <props>-->
+<!--                <prop key="java.lang.ArithmeticException">error</prop>-->
+<!--            </props>-->
+<!--        </property>-->
+<!--        &lt;!&ndash;-->
+<!--            exceptionAttribute设置一个属性名，设置将异常信息共享在请求域中的键，-->
+<!--            此时ex就是存储在请求域中错误信息的键-->
+<!--        &ndash;&gt;-->
+<!--        <property name="exceptionAttribute" value="ex"></property>-->
+<!--    </bean>-->
 </beans>
+
+
+
